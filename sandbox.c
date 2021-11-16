@@ -148,6 +148,12 @@ while(1){
              break;  
             }
       }
+   if(memory>memorylimit){
+      fputs("-2",result_file);
+   }
+   if(real_time>timelimit){
+      fputs("-1",result_file);
+   }
    if(edit){
    remove(lan);
    error_file=fopen("out.txt","r");
@@ -158,12 +164,6 @@ while(1){
    sprintf(buf3,"%d\n",memory);
    fputs(buf3,result_file);
     break;
-   }
-   if(memory>memorylimit){
-      fputs("-2",result_file);
-   }
-   if(real_time>timelimit){
-      fputs("-1",result_file);
    }
    edit=1;
    if(java&&access(lan,F_OK)==-1){
