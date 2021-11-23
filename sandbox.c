@@ -1,4 +1,3 @@
-//#include <seccomp.h>
 #include <stdio.h>
 #include<stdlib.h>
 #include <unistd.h>
@@ -34,7 +33,7 @@ if (sleep((unsigned int)((time1 + 1000) / 1000)) != 0) {
 
 
 void play(char*filename,char**argv,char**env,FILE *config_file,char*line,int java){
-struct rlimit max_memory,max_cpu_time;
+struct rlimit max_memory,max_cpu_time,output;
    rewind(config_file);
    fgets(line,1000,config_file);
    long timelimit=atoi(fgets(line,1000,config_file));
@@ -51,6 +50,8 @@ struct rlimit max_memory,max_cpu_time;
    if (setrlimit(RLIMIT_AS, &max_memory) != 0) {
        //   printf("spaceout");
     }
+output.rlim_cur = output.rlim_max =33554432;
+   setrlimit(RLIMIT_FSIZE,&output);
 result=execve(filename, argv, env);
 printf("error");
 }
