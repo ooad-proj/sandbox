@@ -157,7 +157,7 @@ time1.tid=child_pid;
 //kill(child_pid,SIGKILL);
     int status; 
     int memory;
-    char lan[30];
+    char lan[50];
     if(java){
     strcpy(lan,"Main.class");
 }   else strcpy(lan,"__pycache__/Main.cpython-38.pyc");
