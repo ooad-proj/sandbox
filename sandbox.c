@@ -125,7 +125,7 @@ while(1){
     }
     }else{
     char *filename1="/usr/bin/python3";
-    char *argv1[] = {"python3","__pycache__/Main.cpython-35.pyc",NULL};
+    char *argv1[] = {"python3","__pycache__/Main.cpython-38.pyc",NULL};
     char *env1[] = {NULL};
     filename=filename1;
     for (int i = 0; i < 3; i++){
@@ -160,7 +160,7 @@ time1.tid=child_pid;
     char lan[30];
     if(java){
     strcpy(lan,"Main.class");
-}   else strcpy(lan,"Main.pyc");
+}   else strcpy(lan,"__pycache__/Main.cpython-38.pyc");
     struct rusage resource_usage; 
      if (wait4(child_pid, &status, WSTOPPED, &resource_usage) == -1){  
      kill(child_pid,SIGKILL);
@@ -170,11 +170,17 @@ time1.tid=child_pid;
     //int real_time = (int) (end.tv_sec * 1000 + end.tv_usec / 1000 - start.tv_sec * 1000 - start.tv_usec / 1000);
    int cpu_time = (int) (resource_usage.ru_utime.tv_sec * 1000 +
                                        resource_usage.ru_utime.tv_usec / 1000);
+ if(java&&access(lan,F_OK)==-1){
+        fputs("-4",result_file);
+        break;
+   }
    if(memory>memorylimit){
       fputs("-2",result_file);
+      break;
    }
    if(cpu_time>timelimit){
       fputs("-1",result_file);
+      break;
    }
  if (WIFSIGNALED(status) != 0) {
             int signal = WTERMSIG(status);
@@ -219,10 +225,6 @@ break;
     break;
    }
    edit=1;
-   if(java&&access(lan,F_OK)==-1){
-        fputs("-4",result_file);
-        break;
-   }
    }
    return 0;
 }
